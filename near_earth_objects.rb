@@ -1,6 +1,7 @@
 require 'faraday'
 require 'figaro'
 require 'pry'
+require 'json'
 # Load ENV vars via Figaro
 Figaro.application = Figaro::Application.new(environment: 'production', path: File.expand_path('../config/application.yml', __FILE__))
 Figaro.load
@@ -29,7 +30,7 @@ class NearEarthObjects
     end
 
     {
-      astroid_list: formatted_asteroid_data,
+      asteroid_list: formatted_asteroid_data,
       biggest_astroid: largest_astroid_diameter,
       total_number_of_astroids: total_number_of_astroids
     }
