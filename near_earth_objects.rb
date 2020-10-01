@@ -21,24 +21,30 @@ class NearEarthObjects
     JSON.parse(@raw_data.body, symbolize_names: true)[:near_earth_objects][:"#{@date}"]
   end
 
-  def self.find_neos_by_date(date)
-
-    @neo = NearEarthObjects.new(date)
-
-    parsed_asteroids_data = @neo.parse_request
-
-    largest_asteroid_diameter = parsed_asteroids_data.map do |asteroid|
+  def self.largest_asteroid_diameter
+    @neo.map do |asteroid|
       asteroid[:estimated_diameter][:feet][:estimated_diameter_max].to_i
-    end.max { |a,b| a<=> b}
+    end.max
+  end
 
-    total_number_of_asteroids = parsed_asteroids_data.count
-    formatted_asteroid_data = parsed_asteroids_data.map do |asteroid|
+  def self.total_number_of_asteroids
+    @neo.count
+  end
+
+  def self.formatted_asteroid_data
+    @neo.map do |asteroid|
       {
         name: asteroid[:name],
         diameter: "#{asteroid[:estimated_diameter][:feet][:estimated_diameter_max].to_i} ft",
         miss_distance: "#{asteroid[:close_approach_data][0][:miss_distance][:miles].to_i} miles"
       }
     end
+  end
+
+  def self.find_neos_by_date(date)
+
+    neo = NearEarthObjects.new(date)
+    @neo = neo.parse_request
 
     {
       asteroid_list: formatted_asteroid_data,

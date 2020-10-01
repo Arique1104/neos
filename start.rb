@@ -30,7 +30,7 @@ def create_rows(astroid_data, column_info)
   rows = astroid_data.each { |astroid| format_row_data(astroid, column_info) }
 end
 
-formated_date = DateTime.parse(date).strftime("%A %b %d, %Y")
+formated_date = DateTime.parse(date).strftime("%m %d, %Y")
 puts "______________________________________________________________________________"
 puts "On #{formated_date}, there were #{total_number_of_astroids} objects that almost collided with the earth."
 puts "The largest of these was #{largest_astroid} ft. in diameter."
